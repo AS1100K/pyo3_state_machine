@@ -8,9 +8,10 @@ impl AuthStatus for AuthPending {}
 pub struct Authenticated;
 impl AuthStatus for Authenticated {}
 
-#[py_state_machine(PasswordManagerAuthPending, A = AuthPending)]
-pub struct PasswordManager<A: AuthStatus = AuthPending> {
+#[py_state_machine(PasswordManagerAuthPending, B = Authenticated, A = AuthPending)]
+pub struct PasswordManager<A: AuthStatus, B> {
     api_key: String,
     api_secret: String,
     auth_status: std::marker::PhantomData<A>,
+    another_staus: std::marker::PhantomData<B>,
 }
