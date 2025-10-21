@@ -22,6 +22,14 @@ pub fn macro_struct(args: MacroArgs, input: ItemStruct) -> TokenStream {
         #visibility struct #py_class_name {
             inner: #ident #generics
         }
+
+        impl From< #ident #generics > for #py_class_name {
+            fn from(item: #ident #generics) -> Self {
+                Self {
+                    inner: item
+                }
+            }
+        }
     };
 
     token
