@@ -5,6 +5,7 @@ use syn::ItemStruct;
 
 pub fn macro_struct(args: MacroArgs, input: ItemStruct) -> TokenStream {
     let MacroArgs {
+        visibility,
         py_class_name,
         state_mappings,
     } = args;
@@ -17,21 +18,9 @@ pub fn macro_struct(args: MacroArgs, input: ItemStruct) -> TokenStream {
     let token = quote! {
         #input_clone
 
-        struct #py_class_name {
+        #[pyo3::pyclass]
+        #visibility struct #py_class_name {
             inner: #ident #generics
-        }
-
-        impl core::ops::Deref for #py_class_name {
-            type Target = #ident #generics ;
-            fn deref(&self) -> &Self::Target {
-                &self.inner
-            }
-        }
-
-        impl core::ops::DerefMut for #py_class_name {
-            fn deref_mut(&mut self) -> &mut Self::Target {
-                &mut self.inner
-            }
         }
     };
 
