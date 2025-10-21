@@ -69,8 +69,9 @@ impl Parse for MacroArgs {
             Visibility::Inherited
         };
 
-        // Consume the comma
-        let _: Token![,] = input.parse()?;
+        if !matches!(visibility, Visibility::Inherited) {
+            let _: Token![,] = input.parse()?;
+        }
 
         // 2. Parse the first part, which is expected to be an Identifier
         let py_class_name: Ident = input.parse()?;
