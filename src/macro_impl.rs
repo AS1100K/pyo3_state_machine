@@ -165,5 +165,6 @@ fn replace_generics_in_return_type(
 ) -> TokenStream {
     let new_return = return_type.clone();
 
+    // TODO: Update the generics with hardcoded types
     new_return.into_token_stream()
 }
